@@ -6,11 +6,13 @@ use axum::{
 use crate::handlers::{
     creating_post::add_post,
     geting_post::{get_all, get_by_id, get_by_user},
-    login::signup,
+    logins::{login, signup},
 };
 
 pub async fn login_routers() -> Router {
-    Router::new().route("/login/signup", post(signup))
+    Router::new()
+        .route("/logins/signup", post(signup))
+        .route("/logins/login", post(login))
 }
 
 pub async fn posts_router() -> Router {

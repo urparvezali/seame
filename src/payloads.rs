@@ -14,3 +14,9 @@ pub struct PostPayload {
     pub title: String,
     pub body: String,
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct LoginPayload {
+    pub username: String,
+    pub password: String,
+}
