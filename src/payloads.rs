@@ -20,3 +20,18 @@ pub struct LoginPayload {
     pub username: String,
     pub password: String,
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UserUpdatePasswordPayload {
+	pub password: String,
+	pub new_password: String,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UserUpdateBirthdayPayload {
+	pub birthday: NaiveDate,
+}
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct UserUpdateEmailPayload {
+	pub email: String,
+}

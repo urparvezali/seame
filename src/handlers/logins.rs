@@ -1,4 +1,5 @@
 use axum::{http::StatusCode, Extension, Json};
+use chrono::Utc;
 use dotenvy::var;
 use jsonwebtoken::{encode, EncodingKey, Header};
 use sea_orm::{
@@ -36,7 +37,7 @@ pub async fn login(
         &Header::default(),
         &Claim {
             username: mdl.username,
-            exp: 28349283497983292,
+            exp: Utc::now().timestamp() as usize + 7 * 24 * 3600,
         },
         &EncodingKey::from_secret(secret.as_bytes()),
     )
@@ -58,8 +59,7 @@ pub async fn signup(
         ..Default::default()
     };
     match active_payload.insert(&db).await {
-        Ok(mdl) => {
-            dbg!(mdl); // will be removed later
+        Ok(_) => {
             StatusCode::ACCEPTED
         }
         Err(_e) => StatusCode::CONFLICT,
