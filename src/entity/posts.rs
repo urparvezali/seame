@@ -3,7 +3,7 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
 #[sea_orm(table_name = "posts")]
 pub struct Model {
     #[sea_orm(primary_key)]
@@ -12,9 +12,8 @@ pub struct Model {
     pub title: String,
     pub body: String,
     pub username: String,
+    pub like_count: i64,
     pub created_at: DateTime,
-    pub lover_count: i64,
-    pub lovers: Vec<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

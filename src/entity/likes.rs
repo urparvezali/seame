@@ -3,12 +3,14 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
-#[sea_orm(table_name = "jwts")]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
+#[sea_orm(table_name = "likes")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i64,
-    pub username: String,
+    pub post_id: i64,
+    pub user_id: i64,
+    pub created_at: DateTime,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

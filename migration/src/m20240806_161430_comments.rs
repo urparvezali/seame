@@ -9,27 +9,21 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Posts::Table)
+                    .table(Comments::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Posts::Id)
+                        ColumnDef::new(Comments::Id)
                             .big_integer()
-                            .primary_key()
+                            .not_null()
                             .auto_increment()
-                            .not_null(),
+                            .primary_key(),
                     )
-                    .col(ColumnDef::new(Posts::Uuid).uuid().not_null())
-                    .col(ColumnDef::new(Posts::Title).string().not_null())
-                    .col(ColumnDef::new(Posts::Body).string().not_null())
-                    .col(ColumnDef::new(Posts::Username).string_len(32).not_null())
-					.col(
-						ColumnDef::new(Posts::LikeCount)
-							.big_unsigned()
-							.default(0)
-							.not_null(),
-					)
+                    .col(ColumnDef::new(Comments::Uuid).uuid().not_null())
+                    .col(ColumnDef::new(Comments::PostId).big_integer().not_null())
+                    .col(ColumnDef::new(Comments::Username).string().not_null())
+                    .col(ColumnDef::new(Comments::Body).string().not_null())
                     .col(
-                        ColumnDef::new(Posts::CreatedAt)
+                        ColumnDef::new(Comments::CreatedAt)
                             .timestamp()
                             .default(Expr::current_timestamp())
                             .not_null(),
@@ -41,19 +35,18 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Posts::Table).to_owned())
+            .drop_table(Table::drop().table(Comments::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-enum Posts {
+enum Comments {
     Table,
     Id,
     Uuid,
-    Title,
-    Body,
+    PostId,
     Username,
-    LikeCount,
+    Body,
     CreatedAt,
 }

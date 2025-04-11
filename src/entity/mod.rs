@@ -2,6 +2,7 @@
 
 pub mod prelude;
 
-pub mod jwts;
+pub mod comments;
+pub mod likes;
 pub mod posts;
 pub mod users;

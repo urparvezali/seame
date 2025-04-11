@@ -14,7 +14,6 @@ pub async fn add_post(
         title: Set(payload.title),
         body: Set(payload.body),
         username: Set(path_username),
-        lovers: Set(Vec::new()),
         ..Default::default()
     };
     match active_payload.insert(&db).await {

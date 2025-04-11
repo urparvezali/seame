@@ -9,27 +9,19 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Posts::Table)
+                    .table(Likes::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(Posts::Id)
+                        ColumnDef::new(Likes::Id)
                             .big_integer()
-                            .primary_key()
+                            .not_null()
                             .auto_increment()
-                            .not_null(),
+                            .primary_key(),
                     )
-                    .col(ColumnDef::new(Posts::Uuid).uuid().not_null())
-                    .col(ColumnDef::new(Posts::Title).string().not_null())
-                    .col(ColumnDef::new(Posts::Body).string().not_null())
-                    .col(ColumnDef::new(Posts::Username).string_len(32).not_null())
-					.col(
-						ColumnDef::new(Posts::LikeCount)
-							.big_unsigned()
-							.default(0)
-							.not_null(),
-					)
+                    .col(ColumnDef::new(Likes::PostId).big_integer().not_null())
+                    .col(ColumnDef::new(Likes::UserId).big_integer().not_null())
                     .col(
-                        ColumnDef::new(Posts::CreatedAt)
+                        ColumnDef::new(Likes::CreatedAt)
                             .timestamp()
                             .default(Expr::current_timestamp())
                             .not_null(),
@@ -41,19 +33,16 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(Posts::Table).to_owned())
+            .drop_table(Table::drop().table(Likes::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-enum Posts {
+enum Likes {
     Table,
     Id,
-    Uuid,
-    Title,
-    Body,
-    Username,
-    LikeCount,
+    PostId,
+    UserId,
     CreatedAt,
 }

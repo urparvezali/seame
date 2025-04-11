@@ -3,16 +3,16 @@
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(table_name = "users")]
+#[derive(Serialize,Deserialize,Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
+#[sea_orm(table_name = "comments")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i64,
     pub uuid: Uuid,
+    pub post_id: i64,
     pub username: String,
-    pub password: String,
-    pub email: String,
-    pub birthday: Date,
+    pub body: String,
+    pub created_at: DateTime,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
